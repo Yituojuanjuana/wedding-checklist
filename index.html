@@ -128,6 +128,29 @@
     background:var(--gold);
     flex:none;
   }
+  .hero-place{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px 14px;
+    margin:22px 0 0;
+    font-family:var(--serif);
+    font-size:12.5px;
+    letter-spacing:.08em;
+    line-height:1.8;
+    color:var(--ink-soft);
+  }
+  .hero-place i{
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:var(--gold);
+    flex:none;
+  }
+  .hero-place b{
+    font-weight:600;
+    color:var(--ink);
+  }
   .countdown{
     display:flex;
     align-items:baseline;
@@ -967,7 +990,12 @@
   <div class="hero-text">
     <p class="eyebrow">Wedding Almanac · 备婚手记</p>
     <h1>把最后一周，<br><span class="accent">一件一件</span>安放好。</h1>
-    <p class="lede">婚礼定在 2027 年 2 月 1 日（周一），除夕前四天，正撞上春运高峰。双方父母初见、女方上门、订婚宴与送日子都已办妥；现在只剩两部分：婚礼前一周的逐日清单，与当天的时刻表。勾掉一件，就少一件心事。</p>
+    <p class="lede">婚礼定在 2027 年 2 月 1 日（周一），除夕前四天，正撞上春运高峰。酒席不在酒店，在男方家院坝办；接亲要从高桥镇跨镇到华河镇。双方父母初见、女方上门、订婚宴与送日子都已办妥；现在只剩两部分：婚礼前一周的逐日清单，与当天的时刻表。</p>
+    <p class="hero-place">
+      <span><b>男方家</b> · 红安县华河镇</span><i></i>
+      <span><b>女方家</b> · 红安县高桥镇</span><i></i>
+      <span><b>酒席</b> · 在男方家办</span>
+    </p>
     <p class="countdown">
       <span class="cd-label" id="cdLabel">距婚礼还有</span>
       <span class="cd-num" id="cdNum">—</span>
@@ -975,8 +1003,8 @@
       <span class="cd-date">2027.02.01 · 周一</span>
     </p>
     <p class="hero-meta">
-      <span id="metaStages">2 个部分 · 4 项已完成</span><i></i>
-      <span id="metaTasks">68 件待办</span><i></i>
+      <span id="metaStages">3 个部分 · 4 项已完成</span><i></i>
+      <span id="metaTasks">79 件待办</span><i></i>
       <span>进度自动保存</span>
     </p>
   </div>
@@ -991,7 +1019,7 @@
       </svg>
       <div class="ring-center">
         <span class="ring-pct" id="ringPct">0%</span>
-        <span class="ring-sub" id="ringSub" aria-live="polite">已完成 4 / 68</span>
+        <span class="ring-sub" id="ringSub" aria-live="polite">已完成 4 / 79</span>
       </div>
     </div>
     <p class="ring-foot">随时回来，进度都在。</p>
@@ -1002,7 +1030,7 @@
   <div class="sticky-inner shell">
     <span class="sticky-title">备婚历</span>
     <div class="sticky-right">
-      <span class="sticky-count" id="stickyCount">4 / 68</span>
+      <span class="sticky-count" id="stickyCount">4 / 79</span>
       <div class="mini-bar" aria-hidden="true"><span id="miniFill" style="transform: scaleX(0);"></span></div>
     </div>
   </div>
@@ -1027,6 +1055,18 @@ const PRE_RITES = [
   '送日子'
 ];
 
+const BANQUET_ITEMS = [
+  '请乡厨或流动酒席团队，定菜单、桌数（含 2 桌机动）、出菜时间与帮厨人数',
+  '租桌椅、碗筷、蒸笼、炉灶与保温桶，约定送货、回收时间与押金',
+  '搭棚防雨雪：2 月初红安可能低温雨雪，棚布压边、地面防滑、留排水沟',
+  '灶台柴火/燃气、临时用电与用水：算清线路负荷，备插线板、应急灯与备用电源',
+  '食材采购与保鲜：耐放菜提前两天买，鲜肉水产当天清早取，借冰柜或泡沫箱加冰',
+  '垃圾清运与卫生：备大垃圾桶与泔水桶，席后清扫，对接村里清运时间',
+  '邻居与族亲帮工分工：迎宾、端菜、洗碗、烧火、停车引导各定人',
+  '村道停车与车队调头：提前和邻居打招呼留出主车道，头车与跟车不掉头堵路',
+  '音响与司仪、烟花爆竹：家里办流程从简，先问清当地禁放/限放规定再买'
+];
+
 const WEEK_DAYS = [
   {
     id: 'jan25',
@@ -1036,11 +1076,11 @@ const WEEK_DAYS = [
     theme: '总控与人员',
     note: '先把人和信息对齐，春节档期的变数今天锁死。',
     items: [
-      '与酒店、婚庆书面确认春节档期不涨价、不改期，尾款与违约条款写清',
+      '与乡厨团队、婚庆布置书面确认春节档期不涨价、不改期，尾款与违约条款写清',
       '逐一确认司仪、摄影、摄像、化妆不会提前返乡，锁定到达与离场时间',
       '确认外地亲友的火车、机票与住宿，未订的当天补订，登记到站时间',
       '收集伴郎伴娘可到岗时间，排出婚礼前三天的帮忙时段',
-      '建婚礼当天微信群，拉齐酒店、婚庆、四大金刚与车队负责人',
+      '建婚礼当天微信群，拉齐乡厨、婚庆、四大金刚、车队与帮工头',
       '打印流程总表、通讯录与座位表初稿，标注春运交通风险'
     ]
   },
@@ -1056,7 +1096,7 @@ const WEEK_DAYS = [
       '礼服挂起除皱，备好防尘袋、衣架与蒸汽熨斗',
       '新郎西装、衬衫、皮鞋、领结与袖扣整套试穿',
       '清点婚庆物料与喜糖、伴手礼，春节物流停运前补齐缺口',
-      '按酒店、婚房、接亲点分箱打包，每箱贴清单与负责人',
+      '按男方家、女方家、接亲车分箱打包，每箱贴清单与负责人',
       '备齐应急包：针线、创可贴、备用丝袜、吸管、湿巾与去渍笔'
     ]
   },
@@ -1070,9 +1110,9 @@ const WEEK_DAYS = [
     items: [
       '与车队确认车型、车牌、司机与集合时间，书面确认春节档期不加价',
       '按接亲路线实地走一遍，记录春运拥堵点、红灯与单程用时',
-      '确认跟车顺序、手台或微信群，以及酒店备用停车点',
+      '确认跟车顺序、手台或微信群，以及男方家院坝与村道停车、调头点',
       '确认婚车装饰、手捧花、胸花与腕花的送达时间地点',
-      '安排外地亲友接站车辆与酒店入住，避开除夕前的客流高峰',
+      '安排外地亲友接站车辆与住宿（镇上旅馆或亲戚家），避开除夕前客流高峰',
       '查 2 月 1 日天气、限行与春运路况，准备雨具和备用路线'
     ]
   },
@@ -1086,7 +1126,7 @@ const WEEK_DAYS = [
     items: [
       '与司仪过完整流程，确认誓言、证婚人与父母发言环节',
       '给摄影摄像发必拍清单：晨袍、接亲、敬茶、仪式、全家福',
-      '与婚庆确认音乐、灯光、话筒、备用音源，以及春节布置物料到位',
+      '与婚庆确认院坝音响、话筒、备用音源与布置，春节物料到位',
       '打印致辞稿、誓言卡与感恩父母名单，各多备一份',
       '与化妆师确认定妆、到达时间与化妆位电源，确认其返岗时间',
       '确认仪式与宴席起止时间，为需要赶车的宾客预留提前敬酒时段'
@@ -1100,7 +1140,7 @@ const WEEK_DAYS = [
     theme: '彩排与分工',
     note: '让每个人都知道自己站在哪里；周一婚礼，到场率要按请假情况重算。',
     items: [
-      '带伴郎伴娘到酒店彩排入场、交接、戒指与退场站位',
+      '带伴郎伴娘到男方家院坝与堂屋彩排入场、交接、戒指与退场站位',
       '二次电话确认到场人数，按周一请假情况预留 2 桌机动',
       '明确伴郎团分工：车队、堵门、红包、戒指与礼金保管',
       '明确伴娘团分工：裙摆、补妆、手机、随身包与应急包',
@@ -1133,8 +1173,8 @@ const WEEK_DAYS = [
     note: '只做确认和休息，不再加新任务；明天是周一，也是除夕前四天。',
     items: [
       '逐一电话确认摄影、摄像、化妆、司仪、车队与婚庆的到达时间',
-      '把物料箱交接给酒店或总协调人，按清单当面点清',
-      '与酒店最终核对桌数、菜品、酒水与开席时间，确认机动桌',
+      '把物料箱交接给男方家帮工头与总协调人，按清单当面点清',
+      '与乡厨最终核对桌数、菜单、酒水与开席时间，确认 2 桌机动',
       '确认次日需赶车亲友的名单、车次与提前敬酒安排',
       '新娘做美甲、脱毛与发型护理，定好 04:50 闹钟',
       '给父母与伴郎伴娘发集合时间、地点与联系人'
@@ -1146,134 +1186,146 @@ const DAY_SCHEDULE = [
   {
     time: '05:30',
     title: '起床与早餐',
-    meta: '新娘房 · 新娘、伴娘',
-    detail: '喝温水，吃易消化的早餐；伴娘确认化妆师已出发。'
+    meta: '女方家 · 新娘、伴娘',
+    detail: '喝温水，吃易消化的早餐；伴娘确认化妆师已到、婚纱已挂好。'
   },
   {
-    time: '06:00',
+    time: '05:45',
     title: '化妆造型',
-    meta: '新娘房 · 化妆师',
-    detail: '先底妆后发型；手机交给伴娘保管，随时留意时间。'
+    meta: '女方家 · 化妆师',
+    detail: '约 1.5 小时完成底妆与发型；手机交给伴娘保管，随时对时间。'
   },
   {
-    time: '07:00',
+    time: '07:10',
     title: '摄影摄像到位',
-    meta: '新娘房 · 摄影摄像',
-    detail: '拍戒指、婚鞋、请柬与晨袍细节，检查电池和存储卡。'
+    meta: '女方家 · 摄影摄像',
+    detail: '拍戒指、婚鞋、请柬与晨袍细节，检查电池与存储卡。'
   },
   {
     time: '07:40',
     title: '晨袍照与合影',
-    meta: '新娘房 · 摄影、伴娘团',
-    detail: '窗边自然光拍摄，伴娘统一晨袍，先拍单人再拍合影。'
+    meta: '女方家 · 摄影、伴娘团',
+    detail: '窗边自然光拍摄，先单人再合影，08:05 前收工不拖节奏。'
   },
   {
-    time: '08:10',
+    time: '08:05',
     title: '父母准备与敬茶台',
-    meta: '女方家 · 父母、亲友',
+    meta: '女方家堂屋 · 父母、亲友',
     detail: '摆好茶具与跪垫，父母换礼服，改口红包交给递红包的人。'
   },
   {
-    time: '08:38',
-    title: '接亲车队出发',
-    meta: '男方家 · 伴郎团、车队',
-    detail: '检查头车装饰与车队编号，群里报出发时间，按春运路况留余量。'
+    time: '08:20',
+    title: '车队集合装车',
+    meta: '男方家院坝 · 伴郎团、车队',
+    detail: '检查头车装饰与车队编号，礼盒、鞭炮与嫁妆装车，群里报数。'
   },
   {
-    time: '09:08',
+    time: '08:30',
+    title: '车队出发（跨镇）',
+    meta: '华河镇 → 高桥镇 · 车队、伴郎团',
+    detail: '预留 1 小时车程（待踩点实测），走大路不抢道，头车压住速度。'
+  },
+  {
+    time: '09:30',
+    title: '到达女方家',
+    meta: '高桥镇 · 伴郎团、摄影',
+    detail: '按当地规定放鞭炮，车停不挡村道，伴郎先递红包再叫门。'
+  },
+  {
+    time: '09:40',
     title: '堵门游戏',
     meta: '女方家门口 · 伴娘团、伴郎团',
-    detail: '控制在 25 分钟，红包统一由伴郎保管，不硬闯房门。'
+    detail: '控制在 20 分钟，红包由伴郎统一保管，不硬闯房门。'
   },
   {
-    time: '09:38',
+    time: '10:00',
     title: '找鞋与献花',
     meta: '新娘房 · 伴郎团、摄影',
     detail: '婚鞋分两处藏好，找到后单膝献花，摄影抓拍特写。'
   },
   {
-    time: '10:08',
-    title: '敬茶改口',
-    meta: '女方家客厅 · 新人、双方父母',
-    detail: '按长辈顺序敬茶，红包由伴娘收好并登记。'
+    time: '10:20',
+    title: '敬茶改口（女方）',
+    meta: '女方家堂屋 · 新人、女方父母',
+    detail: '按长辈顺序敬茶，红包由伴娘收好并登记，留 10 分钟拍合影。'
   },
   {
-    time: '10:38',
+    time: '10:45',
+    title: '出门合影与上车',
+    meta: '女方家门口 · 摄影、伴娘团',
+    detail: '拍全家福与父母送出门，伴娘带齐随身包、戒指与应急包。'
+  },
+  {
+    time: '10:55',
     title: '车队返程',
-    meta: '女方家 → 酒店 · 车队、伴郎伴娘',
-    detail: '新娘补妆后出发，伴娘带齐随身包、戒指与应急包。'
+    meta: '高桥镇 → 华河镇 · 车队',
+    detail: '同样预留 1 小时，中途不停车；随车伴郎在群里报位置。'
   },
   {
-    time: '11:30',
-    title: '午餐与休整',
-    meta: '酒店房间 · 新人、伴娘',
-    detail: '简单午餐，闭眼休息 30 分钟，手机调静音。'
+    time: '11:55',
+    title: '到达男方家',
+    meta: '华河镇院坝 · 伴郎团、帮工',
+    detail: '帮工接车搬嫁妆，迎亲队伍在村口等候，鞭炮按当地规定。'
   },
   {
-    time: '13:30',
-    title: '场地验收',
-    meta: '宴会厅 · 婚庆、总协调人',
-    detail: '核对桌卡、花艺、音响、灯光、香槟塔、签到台与 2 桌机动位。'
+    time: '12:05',
+    title: '敬茶改口（男方）与合影',
+    meta: '男方家堂屋 · 新人、男方父母',
+    detail: '先敬男方父母再拍全家福，改口红包当场登记入账。'
+  },
+  {
+    time: '12:25',
+    title: '仪式开始（从简）',
+    meta: '堂屋前 · 司仪、新人',
+    detail: '拜堂、誓言与证婚控制在 15 分钟，音响与话筒提前试过。'
+  },
+  {
+    time: '12:38',
+    title: '家宴开席',
+    meta: '院坝棚下 · 乡厨团队',
+    detail: '按桌号上菜，2 桌机动留到人数确认后再开，热菜不压桌。'
+  },
+  {
+    time: '13:00',
+    title: '逐桌敬酒',
+    meta: '院坝 · 新人、伴郎伴娘',
+    detail: '先敬需赶车的亲友与长辈桌，每桌约 2 分钟，伴娘负责补酒杯。'
+  },
+  {
+    time: '13:50',
+    title: '换敬酒服与补妆',
+    meta: '男方家房间 · 化妆师、伴娘',
+    detail: '换轻便礼服，补口红，整理裙摆与鞋跟，10 分钟内回到席间。'
+  },
+  {
+    time: '14:10',
+    title: '继续敬酒与合影',
+    meta: '院坝 · 新人、摄影',
+    detail: '补敬后半场，逐桌拍合影，伴娘记下未到场的亲友。'
+  },
+  {
+    time: '14:50',
+    title: '送客与回礼',
+    meta: '院坝门口 · 新人、父母',
+    detail: '门口列队送客，伴手礼在出口发放，为赶车亲友叫车或送站。'
   },
   {
     time: '15:30',
-    title: '补妆与换主纱',
-    meta: '化妆间 · 化妆师、伴娘',
-    detail: '补妆后穿主纱、头纱，检查裙撑、拉链与肩带。'
+    title: '收尾结算',
+    meta: '男方家堂屋 · 总协调人、伴郎',
+    detail: '与乡厨结清尾款，清点礼金与物资，确认遗失物品。'
+  },
+  {
+    time: '16:00',
+    title: '归还租赁与清场',
+    meta: '院坝 · 帮工、乡厨',
+    detail: '桌椅碗筷蒸笼清点归还，垃圾装车运走，院坝恢复原样。'
   },
   {
     time: '16:30',
-    title: '迎宾与签到',
-    meta: '宴会厅入口 · 签到组、伴郎伴娘',
-    detail: '签到、礼金登记、座位引导与合影同步进行；外地亲友到店先登记赶车时间。'
-  },
-  {
-    time: '17:18',
-    title: '仪式开始',
-    meta: '主舞台 · 司仪',
-    detail: '灯光暗下，司仪开场；父母先入场就座，音乐准时起。'
-  },
-  {
-    time: '17:45',
-    title: '交换戒指与致辞',
-    meta: '主舞台 · 新人、证婚人',
-    detail: '戒童递戒，证婚人致辞 3 分钟，誓言控制在 1 分钟。'
-  },
-  {
-    time: '18:05',
-    title: '蛋糕与香槟',
-    meta: '主舞台 · 新人',
-    detail: '共同倒香槟、切蛋糕，摄影摄像各守一个机位。'
-  },
-  {
-    time: '18:28',
-    title: '晚宴开席',
-    meta: '宴会厅 · 酒店',
-    detail: '新人退场换敬酒服，宾客先用餐，司仪控场。'
-  },
-  {
-    time: '19:10',
-    title: '逐桌敬酒',
-    meta: '宴会厅 · 新人、伴郎伴娘',
-    detail: '先敬需赶车的宾客与长辈桌，每桌约 2 分钟，伴娘负责补酒杯。'
-  },
-  {
-    time: '20:10',
-    title: '换敬酒服与补妆',
-    meta: '化妆间 · 化妆师、伴娘',
-    detail: '换轻便礼服，补口红，整理裙摆与鞋跟。'
-  },
-  {
-    time: '20:40',
-    title: '送客与合影',
-    meta: '酒店门口 · 新人、父母',
-    detail: '门口列队送客，伴手礼与喜糖在出口发放，为赶车亲友叫车或安排送站。'
-  },
-  {
-    time: '21:20',
-    title: '收尾结算',
-    meta: '酒店前台 · 总协调人、伴郎',
-    detail: '清点礼金与物资，结算尾款，确认遗失物品与成片交付时间。'
+    title: '清点礼金与物品',
+    meta: '男方家堂屋 · 伴郎、父母',
+    detail: '礼金当面点清登记，贵重物品归位，确认成片交付时间。'
   }
 ];
 
@@ -1321,9 +1373,10 @@ function render() {
         </div>
         <p class="chapter-count"><span>${weekTotal}</span> 项</p>
       </div>
-      <p class="chapter-note">1 月 25 日到 31 日，一天只做一天的事。婚礼在除夕前四天，春运高峰里，所有确认都要提前。</p>
+      <p class="chapter-note">1 月 25 日到 31 日，一天只做一天的事。接亲要从高桥镇跨镇到华河镇、酒席在男方家院坝办，又逢除夕前四天的春运，所有确认都要提前。</p>
     </header>
     ${WEEK_DAYS.map(renderDay).join('')}
+    ${renderBanquet()}
     <header class="chapter chapter-day" id="wedding-day">
       <div class="chapter-row">
         <div>
@@ -1332,7 +1385,7 @@ function render() {
         </div>
         <p class="chapter-count"><span>${dayTotal}</span> 个时刻</p>
       </div>
-      <p class="chapter-note">2027 年 2 月 1 日 · 周一，从 05:30 的第一杯温水，到 21:20 的最后一笔尾款。</p>
+      <p class="chapter-note">2027 年 2 月 1 日 · 周一。跨镇接亲单程按 1 小时预留（待踩点实测），中午在男方家院坝开席。</p>
     </header>
     <div class="day-list">
       ${DAY_SCHEDULE.map(renderSlot).join('')}
@@ -1361,6 +1414,33 @@ function renderPast() {
           <p class="phase-note">四项都已办妥，只在这里留个记录；若需更改，点一下就能取消勾选。</p>
         </div>
         <p class="phase-count"><span class="phase-done">0</span> / ${PRE_RITES.length}</p>
+      </header>
+      <ul class="tasks">${tasks}</ul>
+    </section>
+  `;
+}
+
+function renderBanquet() {
+  const tasks = BANQUET_ITEMS.map((text, index) => `
+    <li>
+      <label class="task" style="--i:${index}">
+        <input type="checkbox" id="banquet-i${index}" data-id="banquet-i${index}">
+        <span class="box" aria-hidden="true"></span>
+        <span class="text">${text}</span>
+      </label>
+    </li>
+  `).join('');
+
+  return `
+    <section class="phase phase-banquet" id="banquet">
+      <div class="node" aria-hidden="true"><i></i><span>宴</span></div>
+      <header class="phase-head">
+        <div class="phase-title">
+          <p class="phase-kicker">Before the Day · Home Banquet</p>
+          <h2>家宴 · 场地与后勤</h2>
+          <p class="phase-note">酒席在男方家院坝办，不在酒店；以下事项按 1 月 27 日至 31 日穿插推进，踩点后再定具体日子。</p>
+        </div>
+        <p class="phase-count"><span class="phase-done">0</span> / ${BANQUET_ITEMS.length}</p>
       </header>
       <ul class="tasks">${tasks}</ul>
     </section>
@@ -1511,8 +1591,8 @@ timeline.addEventListener('change', event => {
 });
 
 render();
-document.getElementById('metaStages').textContent = '2 个部分 · 4 项已完成';
-document.getElementById('metaTasks').textContent = `${PRE_RITES.length + WEEK_DAYS.reduce((sum, day) => sum + day.items.length, 0) + DAY_SCHEDULE.length} 件待办`;
+document.getElementById('metaStages').textContent = '3 个部分 · 4 项已完成';
+document.getElementById('metaTasks').textContent = `${PRE_RITES.length + WEEK_DAYS.reduce((sum, day) => sum + day.items.length, 0) + BANQUET_ITEMS.length + DAY_SCHEDULE.length} 件待办`;
 applyState();
 updateProgress();
 updateCountdown();
