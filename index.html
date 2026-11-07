@@ -430,6 +430,31 @@
   }
   .phase.complete .phase-count{color:var(--accent);}
 
+  /* 已完成的前置习俗：整体压暗，条目仍可点击取消 */
+  .phase-past{
+    opacity:.8;
+    margin-bottom:44px;
+    transition:opacity .35s ease;
+  }
+  .js .phase.phase-past.seen{opacity:.8;}
+  .phase-past:hover,
+  .phase-past:focus-within,
+  .js .phase.phase-past.seen:hover,
+  .js .phase.phase-past.seen:focus-within{opacity:1;}
+  .phase-past .phase-title h2{font-size:clamp(21px,2.4vw,25px);}
+  .phase-past .node i{border-style:dashed;background:transparent;}
+  .phase-past .node span{
+    font-family:var(--sans);
+    font-size:15px;
+    color:var(--gold);
+  }
+  .phase-past.complete .node i{
+    border-style:solid;
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  .phase-past .phase-note{max-width:30em;}
+
   .tasks{
     list-style:none;
     margin:14px 0 0;
@@ -942,7 +967,7 @@
   <div class="hero-text">
     <p class="eyebrow">Wedding Almanac · 备婚手记</p>
     <h1>把最后一周，<br><span class="accent">一件一件</span>安放好。</h1>
-    <p class="lede">婚礼定在 2027 年 2 月 1 日（周一），除夕前四天，正撞上春运高峰。前面的筹备已经落定，现在只剩两部分：婚礼前一周的逐日清单，与当天的时刻表。勾掉一件，就少一件心事。</p>
+    <p class="lede">婚礼定在 2027 年 2 月 1 日（周一），除夕前四天，正撞上春运高峰。双方父母初见、女方上门、订婚宴与送日子都已办妥；现在只剩两部分：婚礼前一周的逐日清单，与当天的时刻表。勾掉一件，就少一件心事。</p>
     <p class="countdown">
       <span class="cd-label" id="cdLabel">距婚礼还有</span>
       <span class="cd-num" id="cdNum">—</span>
@@ -950,8 +975,8 @@
       <span class="cd-date">2027.02.01 · 周一</span>
     </p>
     <p class="hero-meta">
-      <span id="metaStages">2 个部分</span><i></i>
-      <span id="metaTasks">64 件待办</span><i></i>
+      <span id="metaStages">2 个部分 · 4 项已完成</span><i></i>
+      <span id="metaTasks">68 件待办</span><i></i>
       <span>进度自动保存</span>
     </p>
   </div>
@@ -966,7 +991,7 @@
       </svg>
       <div class="ring-center">
         <span class="ring-pct" id="ringPct">0%</span>
-        <span class="ring-sub" id="ringSub" aria-live="polite">已完成 0 / 64</span>
+        <span class="ring-sub" id="ringSub" aria-live="polite">已完成 4 / 68</span>
       </div>
     </div>
     <p class="ring-foot">随时回来，进度都在。</p>
@@ -977,7 +1002,7 @@
   <div class="sticky-inner shell">
     <span class="sticky-title">备婚历</span>
     <div class="sticky-right">
-      <span class="sticky-count" id="stickyCount">0 / 64</span>
+      <span class="sticky-count" id="stickyCount">4 / 68</span>
       <div class="mini-bar" aria-hidden="true"><span id="miniFill" style="transform: scaleX(0);"></span></div>
     </div>
   </div>
@@ -995,6 +1020,13 @@
 </footer>
 
 <script>
+const PRE_RITES = [
+  '双方父母初次见面，确定结婚日期、彩礼与婚嫁习俗',
+  '女方上门',
+  '订婚宴',
+  '送日子'
+];
+
 const WEEK_DAYS = [
   {
     id: 'jan25',
@@ -1280,6 +1312,7 @@ function render() {
   const dayTotal = DAY_SCHEDULE.length;
 
   timeline.innerHTML = `
+    ${renderPast()}
     <header class="chapter">
       <div class="chapter-row">
         <div>
@@ -1304,6 +1337,33 @@ function render() {
     <div class="day-list">
       ${DAY_SCHEDULE.map(renderSlot).join('')}
     </div>
+  `;
+}
+
+function renderPast() {
+  const tasks = PRE_RITES.map((text, index) => `
+    <li>
+      <label class="task" style="--i:${index}">
+        <input type="checkbox" id="rite-${index}" data-id="rite-${index}" data-default="on">
+        <span class="box" aria-hidden="true"></span>
+        <span class="text">${text}</span>
+      </label>
+    </li>
+  `).join('');
+
+  return `
+    <section class="phase phase-past" id="pre-rites">
+      <div class="node" aria-hidden="true"><i></i><span>✓</span></div>
+      <header class="phase-head">
+        <div class="phase-title">
+          <p class="phase-kicker">Completed · Before the Week</p>
+          <h2>已完成 · 前置习俗</h2>
+          <p class="phase-note">四项都已办妥，只在这里留个记录；若需更改，点一下就能取消勾选。</p>
+        </div>
+        <p class="phase-count"><span class="phase-done">0</span> / ${PRE_RITES.length}</p>
+      </header>
+      <ul class="tasks">${tasks}</ul>
+    </section>
   `;
 }
 
@@ -1357,7 +1417,10 @@ function renderSlot(slot, index) {
 
 function applyState() {
   document.querySelectorAll('#timeline input[type="checkbox"]').forEach(input => {
-    const checked = Boolean(state[input.dataset.id]);
+    const stored = state[input.dataset.id];
+    const checked = typeof stored === 'boolean'
+      ? stored
+      : input.dataset.default === 'on';
     input.checked = checked;
     const row = input.closest('.task') || input.closest('.slot');
     if (row) row.classList.toggle('done', checked);
@@ -1390,6 +1453,9 @@ function updateProgress() {
     });
     const count = section.querySelector('.phase-done');
     if (count) count.textContent = checked;
+    if (section.classList.contains('phase-past')) {
+      section.classList.toggle('complete', boxes.length > 0 && checked === boxes.length);
+    }
   });
 }
 
@@ -1445,8 +1511,8 @@ timeline.addEventListener('change', event => {
 });
 
 render();
-document.getElementById('metaStages').textContent = '2 个部分';
-document.getElementById('metaTasks').textContent = `${WEEK_DAYS.reduce((sum, day) => sum + day.items.length, 0) + DAY_SCHEDULE.length} 件待办`;
+document.getElementById('metaStages').textContent = '2 个部分 · 4 项已完成';
+document.getElementById('metaTasks').textContent = `${PRE_RITES.length + WEEK_DAYS.reduce((sum, day) => sum + day.items.length, 0) + DAY_SCHEDULE.length} 件待办`;
 applyState();
 updateProgress();
 updateCountdown();
