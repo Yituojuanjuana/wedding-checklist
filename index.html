@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="js"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>备婚历 · 婚礼筹备时间轴</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='9' fill='%239A4438'/%3E%3Ctext x='32' y='46' font-size='33' text-anchor='middle' fill='%23F7F1E7' font-family='serif'%3E%E5%9B%8D%3C/text%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root{
+    --paper:#F5EFE5;
+    --paper-2:#FAF5EC;
+    --ink:#2A2320;
+    --ink-soft:#6B5F55;
+    --mute:#8B7D6F;
+    --gold:#B8935A;
+    --gold-soft:rgba(184,147,90,.38);
+    --accent:#9A4438;
+    --hair:rgba(42,35,32,.1);
+    --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;
+    --latin:"Georgia","Times New Roman",serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    overflow-x:hidden;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.7;
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(880px 620px at 88% -8%, rgba(196,158,104,.24), transparent 62%),
+      radial-gradient(720px 520px at -6% 28%, rgba(154,68,56,.07), transparent 66%),
+      radial-gradient(600px 600px at 50% 108%, rgba(184,147,90,.1), transparent 70%),
+      linear-gradient(180deg,#F7F2E9 0%,#F3ECE1 58%,#F6F0E6 100%);
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(154,68,56,.16);}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:#F3EDE2;}
+  ::-webkit-scrollbar-thumb{background:#D8C9B2;border-radius:6px;}
+  ::-webkit-scrollbar-thumb:hover{background:#C6B394;}
+
+  .grain{
+    position:fixed;
+    inset:0;
+    z-index:5;
+    pointer-events:none;
+    opacity:.045;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+
+  .shell{
+    width:100%;
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 40px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 178px;
+    gap:56px;
+    align-items:end;
+    padding-top:76px;
+    padding-bottom:58px;
+  }
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:0;
+    font-family:var(--latin);
+    font-size:10.5px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--mute);
+  }
+  .eyebrow::before{
+    content:"";
+    width:40px;
+    height:1px;
+    background:var(--gold);
+    flex:none;
+  }
+  h1{
+    margin:26px 0 20px;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(36px,5.4vw,60px);
+    line-height:1.2;
+    letter-spacing:.015em;
+  }
+  h1 .accent{
+    color:var(--accent);
+    letter-spacing:.04em;
+  }
+  .lede{
+    margin:0;
+    max-width:32em;
+    font-size:14.5px;
+    line-height:2;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+  }
+  .hero-meta{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:28px 0 0;
+    font-family:var(--serif);
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--mute);
+  }
+  .hero-meta i{
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:var(--gold);
+    flex:none;
+  }
+
+  .ring-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:14px;
+  }
+  .ring-label{
+    margin:0;
+    font-family:var(--latin);
+    font-size:9.5px;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--mute);
+  }
+  .ring{
+    position:relative;
+    width:160px;
+    height:160px;
+  }
+  .ring svg{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .ring-halo{
+    fill:none;
+    stroke:var(--gold);
+    stroke-width:1;
+    stroke-dasharray:2 10;
+    opacity:.5;
+  }
+  .ring-track{
+    fill:none;
+    stroke:rgba(42,35,32,.13);
+    stroke-width:1;
+  }
+  .ring-fill{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:2;
+    stroke-dasharray:377;
+    stroke-dashoffset:377;
+    transform:rotate(-90deg);
+    transform-origin:center;
+    transform-box:fill-box;
+    transition:stroke-dashoffset .65s cubic-bezier(.3,.7,.2,1), stroke .5s ease;
+  }
+  .ring-center{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    text-align:center;
+  }
+  .ring-pct{
+    font-family:var(--latin);
+    font-size:33px;
+    line-height:1;
+    letter-spacing:.01em;
+    color:var(--ink);
+    transition:font-size .3s ease, letter-spacing .3s ease;
+  }
+  .ring-sub{
+    font-size:10px;
+    letter-spacing:.13em;
+    color:var(--mute);
+    white-space:nowrap;
+  }
+  .ring.all-done .ring-fill{stroke:var(--gold);}
+  .ring.all-done .ring-pct{
+    font-family:var(--serif);
+    font-size:21px;
+    letter-spacing:.24em;
+    color:var(--accent);
+    padding-left:.24em;
+  }
+  .ring-foot{
+    margin:0;
+    font-size:10.5px;
+    letter-spacing:.12em;
+    color:var(--mute);
+  }
+
+  /* ---------- Sticky progress ---------- */
+  .sticky{
+    position:sticky;
+    top:0;
+    z-index:30;
+    background:rgba(245,239,229,.84);
+    -webkit-backdrop-filter:blur(14px) saturate(1.3);
+    backdrop-filter:blur(14px) saturate(1.3);
+    border-top:1px solid var(--hair);
+  }
+  .sticky-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    height:56px;
+  }
+  .sticky-title{
+    font-family:var(--serif);
+    font-size:13px;
+    letter-spacing:.22em;
+    color:var(--ink);
+  }
+  .sticky-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:0;
+  }
+  .sticky-count{
+    font-family:var(--latin);
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .mini-bar{
+    width:140px;
+    height:2px;
+    background:rgba(42,35,32,.12);
+    position:relative;
+    overflow:hidden;
+    flex:none;
+  }
+  .mini-bar span{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,var(--gold),var(--accent));
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .55s cubic-bezier(.3,.7,.2,1);
+  }
+  .sticky-rule{
+    position:relative;
+    height:1px;
+    background:var(--hair);
+    overflow:hidden;
+  }
+  .sticky-rule span{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,var(--gold),var(--accent));
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .55s cubic-bezier(.3,.7,.2,1);
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    position:relative;
+    max-width:800px;
+    padding:64px 0 20px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:26px;
+    top:14px;
+    bottom:44px;
+    width:1px;
+    background:linear-gradient(180deg,
+      rgba(184,147,90,.05) 0%,
+      var(--gold-soft) 4%,
+      rgba(184,147,90,.3) 72%,
+      rgba(184,147,90,.05) 100%);
+  }
+
+  .phase{
+    position:relative;
+    padding-left:84px;
+    margin-bottom:62px;
+  }
+  .phase:last-child{margin-bottom:0;}
+
+  .node{
+    position:absolute;
+    left:10px;
+    top:0;
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    z-index:1;
+  }
+  .node i{
+    position:absolute;
+    inset:0;
+    transform:rotate(45deg);
+    border:1px solid var(--gold);
+    background:var(--paper-2);
+    transition:background .4s ease, border-color .4s ease;
+  }
+  .node span{
+    position:relative;
+    z-index:1;
+    font-family:var(--serif);
+    font-size:13px;
+    line-height:1;
+    color:#8A7043;
+    transition:color .4s ease;
+  }
+  .phase.complete .node i{
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  .phase.complete .node span{color:#FBF4E8;}
+
+  .phase-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:4px;
+  }
+  .phase-kicker{
+    margin:0;
+    font-family:var(--latin);
+    font-size:9.5px;
+    letter-spacing:.27em;
+    text-transform:uppercase;
+    color:var(--mute);
+  }
+  .phase-title h2{
+    margin:9px 0 5px;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(23px,2.7vw,29px);
+    line-height:1.3;
+    letter-spacing:.03em;
+  }
+  .phase-note{
+    margin:0;
+    font-family:var(--serif);
+    font-size:13px;
+    line-height:1.8;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+  }
+  .phase-count{
+    margin:5px 0 0;
+    font-family:var(--latin);
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--mute);
+    white-space:nowrap;
+    transition:color .35s ease;
+  }
+  .phase.complete .phase-count{color:var(--accent);}
+
+  .tasks{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+  }
+  .tasks li + li{border-top:1px solid var(--hair);}
+  .task{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    padding:14px 10px;
+    margin:0 -10px;
+    border-radius:4px;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .35s ease;
+  }
+  .task:hover{background:rgba(184,147,90,.075);}
+  .task:focus-within{outline:1px solid var(--gold);outline-offset:3px;}
+  .task input{
+    position:absolute;
+    width:1px;
+    height:1px;
+    opacity:0;
+    pointer-events:none;
+  }
+  .box{
+    position:relative;
+    flex:none;
+    width:20px;
+    height:20px;
+    margin-top:4px;
+    border:1px solid rgba(42,35,32,.3);
+    border-radius:50%;
+    transition:background .35s ease, border-color .35s ease;
+  }
+  .box::after{
+    content:"";
+    position:absolute;
+    left:6px;
+    top:2px;
+    width:5px;
+    height:9px;
+    border-right:2px solid var(--paper-2);
+    border-bottom:2px solid var(--paper-2);
+    transform:rotate(45deg) scale(.3);
+    opacity:0;
+    transition:opacity .2s ease, transform .35s cubic-bezier(.2,.8,.3,1.4);
+  }
+  .task:hover .box{border-color:var(--accent);}
+  .task.done .box{
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  .task.done .box::after{
+    opacity:1;
+    transform:rotate(45deg) scale(1);
+  }
+  .text{
+    position:relative;
+    font-size:15.5px;
+    line-height:1.75;
+    letter-spacing:.01em;
+    color:var(--ink);
+    text-wrap:pretty;
+    transition:color .35s ease, opacity .35s ease;
+  }
+  .nb{white-space:nowrap;}
+  .text::after{
+    content:"";
+    position:absolute;
+    left:-2px;
+    right:-2px;
+    top:53%;
+    height:1px;
+    background:currentColor;
+    opacity:.5;
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .5s cubic-bezier(.65,0,.35,1);
+  }
+  .task.done .text{
+    color:var(--ink-soft);
+    opacity:.55;
+  }
+  .task.done .text::after{transform:scaleX(1);}
+
+  /* ---------- Footer ---------- */
+  .footer{
+    padding:88px 0 76px;
+    text-align:center;
+  }
+  .footer::before{
+    content:"";
+    display:block;
+    width:1px;
+    height:52px;
+    margin:0 auto 44px;
+    background:linear-gradient(180deg,rgba(184,147,90,.5),rgba(184,147,90,0));
+  }
+  .seal{
+    position:relative;
+    width:44px;
+    height:44px;
+    margin:0 auto 28px;
+    border:2px solid var(--accent);
+    border-radius:2px;
+    display:grid;
+    place-items:center;
+    font-family:var(--serif);
+    font-size:22px;
+    line-height:1;
+    color:var(--accent);
+    transform:rotate(-6deg);
+  }
+  .seal::after{
+    content:"";
+    position:absolute;
+    inset:3px;
+    border:1px solid rgba(154,68,56,.35);
+  }
+  .quote{
+    margin:0;
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:2.1;
+    letter-spacing:.12em;
+    color:var(--ink-soft);
+  }
+  .foot-note{
+    margin:26px 0 0;
+    font-size:11px;
+    line-height:1.8;
+    letter-spacing:.05em;
+    color:var(--mute);
+  }
+
+  /* ---------- Motion ---------- */
+  @keyframes heroUp{
+    from{opacity:0;transform:translateY(18px);}
+    to{opacity:1;transform:none;}
+  }
+  @keyframes ringIn{
+    from{opacity:0;transform:scale(.94);}
+    to{opacity:1;transform:none;}
+  }
+  @keyframes taskRise{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:none;}
+  }
+  .hero .eyebrow{animation:heroUp .8s .08s both;}
+  .hero h1{animation:heroUp .9s .2s both;}
+  .hero .lede{animation:heroUp .9s .34s both;}
+  .hero .hero-meta{animation:heroUp .9s .46s both;}
+  .ring-wrap{animation:ringIn 1.1s .48s both;}
+
+  .js .phase{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .75s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  .js .phase.seen{
+    opacity:1;
+    transform:none;
+  }
+  .js .phase:not(.seen) .task{opacity:0;}
+  .js .phase.seen .task{
+    animation:taskRise .62s cubic-bezier(.2,.7,.2,1) both;
+    animation-delay:calc(var(--i) * 38ms + 110ms);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero{gap:36px;}
+    .ring{width:142px;height:142px;}
+    .ring-pct{font-size:29px;}
+  }
+
+  @media (max-width:768px){
+    .shell{padding:0 26px;}
+    .hero{
+      grid-template-columns:1fr;
+      gap:34px;
+      align-items:start;
+      padding-top:52px;
+      padding-bottom:42px;
+    }
+    .ring-wrap{
+      align-items:flex-start;
+      flex-direction:row;
+      flex-wrap:wrap;
+      gap:16px 22px;
+    }
+    .ring-label{display:none;}
+    .ring{width:118px;height:118px;}
+    .ring-pct{font-size:25px;}
+    .ring-sub{font-size:9px;letter-spacing:.08em;}
+    .ring-foot{
+      align-self:center;
+      max-width:12em;
+      line-height:1.9;
+    }
+    .timeline{padding-top:52px;max-width:100%;}
+    .phase{padding-left:66px;margin-bottom:50px;}
+    .timeline::before{left:22px;}
+    .node{left:8px;}
+    .phase-head{gap:16px;}
+  }
+
+  @media (max-width:600px){
+    body{font-size:15px;}
+    .shell{padding:0 22px;}
+    .hero{padding-top:44px;padding-bottom:36px;}
+    h1{font-size:clamp(32px,9.5vw,40px);margin:22px 0 16px;}
+    .lede{font-size:13.5px;line-height:1.95;}
+    .hero-meta{gap:11px;font-size:11px;letter-spacing:.08em;flex-wrap:wrap;}
+    .ring{width:100px;height:100px;}
+    .ring-pct{font-size:21px;}
+    .ring.all-done .ring-pct{font-size:16px;letter-spacing:.16em;padding-left:.16em;}
+    .ring-foot{
+      display:block;
+      align-self:center;
+      max-width:15em;
+      font-size:10px;
+      line-height:1.85;
+      letter-spacing:.06em;
+      white-space:nowrap;
+    }
+
+    .sticky-inner{height:50px;gap:14px;}
+    .sticky-title{font-size:12px;letter-spacing:.14em;}
+    .sticky-right{gap:12px;}
+    .sticky-count{font-size:11px;letter-spacing:.04em;}
+    .mini-bar{width:84px;}
+
+    .timeline{padding-top:44px;}
+    .timeline::before{left:18px;top:10px;}
+    .phase{padding-left:52px;margin-bottom:42px;}
+    .node{left:5px;width:26px;height:26px;}
+    .node span{font-size:11px;}
+    .phase-kicker{font-size:8.5px;letter-spacing:.2em;}
+    .phase-title h2{font-size:22px;margin:7px 0 4px;}
+    .phase-note{font-size:12px;line-height:1.75;}
+    .phase-count{font-size:11px;letter-spacing:.06em;margin-top:3px;}
+    .tasks{margin-top:10px;}
+    .task{gap:12px;padding:13px 8px;margin:0 -8px;}
+    .box{width:19px;height:19px;margin-top:3px;}
+    .box::after{left:5px;top:2px;width:5px;height:8px;}
+    .text{font-size:14px;line-height:1.7;}
+
+    .footer{padding:64px 0 56px;}
+    .quote{font-size:15px;letter-spacing:.08em;}
+    .foot-note{font-size:10px;padding:0 12px;}
+  }
+
+  @media (max-width:360px){
+    .shell{padding:0 20px;}
+    .eyebrow{font-size:9.5px;letter-spacing:.2em;gap:10px;}
+    .eyebrow::before{width:26px;}
+    .timeline::before{left:14px;}
+    .phase{padding-left:46px;margin-bottom:38px;}
+    .node{left:1px;}
+    .ring-foot{font-size:9.5px;letter-spacing:.02em;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-delay:0ms !important;
+      transition-duration:.001ms !important;
+    }
+    .js .phase,
+    .js .phase:not(.seen) .task{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="hero shell">
+  <div class="hero-text">
+    <p class="eyebrow">Wedding Almanac · 备婚手记</p>
+    <h1>把婚礼，<br><span class="accent">一件一件</span>安放好。</h1>
+    <p class="lede">从一年前的那顿家庭会议，到婚礼当天最后一桌敬酒。按七个阶段往前推进，勾掉一件，就少一件心事。</p>
+    <p class="hero-meta">
+      <span id="metaStages">7 个阶段</span><i></i>
+      <span id="metaTasks">50 件待办</span><i></i>
+      <span>进度自动保存</span>
+    </p>
+  </div>
+
+  <div class="ring-wrap">
+    <p class="ring-label">Overall Progress</p>
+    <div class="ring" id="ring">
+      <svg viewBox="0 0 160 160" role="img" aria-label="婚礼筹备总体完成进度">
+        <circle class="ring-halo" cx="80" cy="80" r="73"></circle>
+        <circle class="ring-track" cx="80" cy="80" r="60"></circle>
+        <circle class="ring-fill" id="ringFill" cx="80" cy="80" r="60" style="stroke-dasharray: 376.991; stroke-dashoffset: 278.973;"></circle>
+      </svg>
+      <div class="ring-center">
+        <span class="ring-pct" id="ringPct">26%</span>
+        <span class="ring-sub" id="ringSub" aria-live="polite">已完成 13 / 50</span>
+      </div>
+    </div>
+    <p class="ring-foot">随时回来，进度都在。</p>
+  </div>
+</header>
+
+<div class="sticky">
+  <div class="sticky-inner shell">
+    <span class="sticky-title">备婚历</span>
+    <div class="sticky-right">
+      <span class="sticky-count" id="stickyCount">13 / 50</span>
+      <div class="mini-bar" aria-hidden="true"><span id="miniFill" style="transform: scaleX(0.26);"></span></div>
+    </div>
+  </div>
+  <div class="sticky-rule" aria-hidden="true"><span id="ruleFill" style="transform: scaleX(0.26);"></span></div>
+</div>
+
+<main class="shell">
+  <section class="timeline" id="timeline" aria-label="婚礼筹备时间轴">
+      <section class="phase complete seen" id="p1">
+        <div class="node" aria-hidden="true"><i></i><span>壹</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 01 · TWELVE MONTHS OUT</p>
+            <h2>12 个月前</h2>
+            <p class="phase-note">先定下日子与预算，往后的每一步才有落点。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">7</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task done" style="--i:0">
+          <input type="checkbox" id="p1-i0" data-id="p1-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">与双方父母商量婚期、婚礼规模与风格倾向</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:1">
+          <input type="checkbox" id="p1-i1" data-id="p1-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">确定婚礼总预算，列清双方分摊与父母支持</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:2">
+          <input type="checkbox" id="p1-i2" data-id="p1-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">预约民政局领证日期，备齐户口本与登记照</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:3">
+          <input type="checkbox" id="p1-i3" data-id="p1-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">列出初版宾客名单，估算桌数与外地亲友人数</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:4">
+          <input type="checkbox" id="p1-i4" data-id="p1-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">实地考察婚宴酒店，确认档期、桌数与最低消费</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:5">
+          <input type="checkbox" id="p1-i5" data-id="p1-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">建立备婚账本，记录场地、婚庆等大项支出</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:6">
+          <input type="checkbox" id="p1-i6" data-id="p1-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">收集婚礼灵感，确定主色调与整体气质</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p2">
+        <div class="node" aria-hidden="true"><i></i><span>贰</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 02 · NINE MONTHS OUT</p>
+            <h2>9 个月前</h2>
+            <p class="phase-note">影像、仪式与礼服，在这一段逐一定下。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">6</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task done" style="--i:0">
+          <input type="checkbox" id="p2-i0" data-id="p2-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">预约并拍摄婚纱照，确认精修张数与交付时间</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:1">
+          <input type="checkbox" id="p2-i1" data-id="p2-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">面谈婚庆公司，确定布置方案并签订合同</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:2">
+          <input type="checkbox" id="p2-i2" data-id="p2-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">锁定司仪、摄影、摄像、化妆<span class="nb">（四大金刚）</span>档期</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:3">
+          <input type="checkbox" id="p2-i3" data-id="p2-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">挑选婚戒，安排刻字、改圈与日常保养</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:4">
+          <input type="checkbox" id="p2-i4" data-id="p2-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">新娘首次试纱，确定主纱与出门纱的方向</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task done" style="--i:5">
+          <input type="checkbox" id="p2-i5" data-id="p2-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">新郎量体定制西装、衬衫与皮鞋</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p2-i6" data-id="p2-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">预订蜜月机票与酒店，避开婚礼前后高峰</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p3">
+        <div class="node" aria-hidden="true"><i></i><span>叁</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 03 · SIX MONTHS OUT</p>
+            <h2>6 个月前</h2>
+            <p class="phase-note">流程成形，菜单与请柬开始落到纸面。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task" style="--i:0">
+          <input type="checkbox" id="p3-i0" data-id="p3-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">确定伴郎伴娘人选，同步婚礼日期与流程</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:1">
+          <input type="checkbox" id="p3-i1" data-id="p3-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">试纱定款：主纱、敬酒服、秀禾或旗袍</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:2">
+          <input type="checkbox" id="p3-i2" data-id="p3-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">与婚庆确认仪式流程初稿与场地动线</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:3">
+          <input type="checkbox" id="p3-i3" data-id="p3-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">试菜并确定婚宴菜单、酒水与儿童餐</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:4">
+          <input type="checkbox" id="p3-i4" data-id="p3-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">设计请柬与电子邀请函，统计寄送数量</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:5">
+          <input type="checkbox" id="p3-i5" data-id="p3-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">预约新娘试妆，确认妆面风格与饰品</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p3-i6" data-id="p3-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">安排双方父母礼服与婚礼当天造型</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p4">
+        <div class="node" aria-hidden="true"><i></i><span>肆</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 04 · THREE MONTHS OUT</p>
+            <h2>3 个月前</h2>
+            <p class="phase-note">请柬发出，路线、婚车与红包都要确认。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task" style="--i:0">
+          <input type="checkbox" id="p4-i0" data-id="p4-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">发出请柬，逐一电话确认到场人数</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:1">
+          <input type="checkbox" id="p4-i1" data-id="p4-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">敲定婚礼当天流程表与各环节时间节点</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:2">
+          <input type="checkbox" id="p4-i2" data-id="p4-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">与司仪沟通誓词、互动环节与音乐清单</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:3">
+          <input type="checkbox" id="p4-i3" data-id="p4-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">安排婚车车队与接亲路线，实地走一遍</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:4">
+          <input type="checkbox" id="p4-i4" data-id="p4-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">预订婚房、亲友住宿与当天接送车辆</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:5">
+          <input type="checkbox" id="p4-i5" data-id="p4-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">采购喜糖、伴手礼、红包封与喜字贴</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p4-i6" data-id="p4-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">开始皮肤管理与体态练习，调整作息</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p5">
+        <div class="node" aria-hidden="true"><i></i><span>伍</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 05 · ONE MONTH OUT</p>
+            <h2>1 个月前</h2>
+            <p class="phase-note">把纸面的计划，变成每个人清楚的安排。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task" style="--i:0">
+          <input type="checkbox" id="p5-i0" data-id="p5-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">与酒店确认最终桌数、菜单与场地布置细节</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:1">
+          <input type="checkbox" id="p5-i1" data-id="p5-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">组织婚礼彩排，明确伴郎伴娘与亲友分工</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:2">
+          <input type="checkbox" id="p5-i2" data-id="p5-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">向摄影摄像提交必拍清单与重点镜头</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:3">
+          <input type="checkbox" id="p5-i3" data-id="p5-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">准备改口红包、堵门红包与答谢红包</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:4">
+          <input type="checkbox" id="p5-i4" data-id="p5-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">试妆定妆，确认婚礼当天发型与头饰</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:5">
+          <input type="checkbox" id="p5-i5" data-id="p5-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">领取结婚证，核对姓名与证件信息</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p5-i6" data-id="p5-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">整理当天随身包：戒指、证件、补妆与针线</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p6">
+        <div class="node" aria-hidden="true"><i></i><span>陆</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 06 · ONE WEEK OUT</p>
+            <h2>1 周前</h2>
+            <p class="phase-note">物件到位，电话再确认一遍。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / 7</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task" style="--i:0">
+          <input type="checkbox" id="p6-i0" data-id="p6-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">电话提醒宾客，确认最终席位与特殊饮食</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:1">
+          <input type="checkbox" id="p6-i1" data-id="p6-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">打印座位表、流程表与工作人员通讯录</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:2">
+          <input type="checkbox" id="p6-i2" data-id="p6-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">将喜糖、伴手礼与酒水提前交接至酒店</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:3">
+          <input type="checkbox" id="p6-i3" data-id="p6-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">确认婚车装饰、手捧花与胸花的送达时间</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:4">
+          <input type="checkbox" id="p6-i4" data-id="p6-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">新娘完成美甲与发型护理，试穿全部礼服</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:5">
+          <input type="checkbox" id="p6-i5" data-id="p6-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">给伴郎伴娘开碰头会，明确集合时间与职责</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p6-i6" data-id="p6-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">打包应急包：针线、创可贴、备用丝袜与充电宝</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    
+      <section class="phase seen" id="p7">
+        <div class="node" aria-hidden="true"><i></i><span>柒</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 07 · THE WEDDING DAY</p>
+            <h2>婚礼当天</h2>
+            <p class="phase-note">流程交给团队，把心思留给彼此。</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / 8</p>
+        </header>
+        <ul class="tasks">
+      <li>
+        <label class="task" style="--i:0">
+          <input type="checkbox" id="p7-i0" data-id="p7-i0">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">早起化妆，按流程表推进每个时间节点</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:1">
+          <input type="checkbox" id="p7-i1" data-id="p7-i1">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">接亲、堵门与敬茶，留意红包与出门时间</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:2">
+          <input type="checkbox" id="p7-i2" data-id="p7-i2">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">签到台、席位引导与礼金登记就位</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:3">
+          <input type="checkbox" id="p7-i3" data-id="p7-i3">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">仪式：入场、誓言、交换戒指、感恩父母</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:4">
+          <input type="checkbox" id="p7-i4" data-id="p7-i4">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">换敬酒服，按桌次敬酒并控制整体节奏</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:5">
+          <input type="checkbox" id="p7-i5" data-id="p7-i5">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">安排专人保管戒指、礼金与贵重物品</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:6">
+          <input type="checkbox" id="p7-i6" data-id="p7-i6">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">送客、物资清点并结算当天尾款</span>
+        </label>
+      </li>
+    
+      <li>
+        <label class="task" style="--i:7">
+          <input type="checkbox" id="p7-i7" data-id="p7-i7">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">收好照片与视频素材，约定成片交付时间</span>
+        </label>
+      </li>
+    </ul>
+      </section>
+    </section>
+</main>
+
+<footer class="footer shell">
+  <div class="seal" aria-hidden="true">囍</div>
+  <p class="quote">婚礼只有一天，<br>准备它的日子，也值得被好好过。</p>
+  <p class="foot-note">勾选进度保存在此设备的浏览器中，清除浏览器数据会一并清除。</p>
+</footer>
+
+<script>
+const PHASES = [
+  {
+    id:'p1', numeral:'壹', title:'12 个月前', en:'TWELVE MONTHS OUT',
+    note:'先定下日子与预算，往后的每一步才有落点。',
+    items:[
+      '与双方父母商量婚期、婚礼规模与风格倾向',
+      '确定婚礼总预算，列清双方分摊与父母支持',
+      '预约民政局领证日期，备齐户口本与登记照',
+      '列出初版宾客名单，估算桌数与外地亲友人数',
+      '实地考察婚宴酒店，确认档期、桌数与最低消费',
+      '建立备婚账本，记录场地、婚庆等大项支出',
+      '收集婚礼灵感，确定主色调与整体气质'
+    ]
+  },
+  {
+    id:'p2', numeral:'贰', title:'9 个月前', en:'NINE MONTHS OUT',
+    note:'影像、仪式与礼服，在这一段逐一定下。',
+    items:[
+      '预约并拍摄婚纱照，确认精修张数与交付时间',
+      '面谈婚庆公司，确定布置方案并签订合同',
+      '锁定司仪、摄影、摄像、化妆<span class="nb">（四大金刚）</span>档期',
+      '挑选婚戒，安排刻字、改圈与日常保养',
+      '新娘首次试纱，确定主纱与出门纱的方向',
+      '新郎量体定制西装、衬衫与皮鞋',
+      '预订蜜月机票与酒店，避开婚礼前后高峰'
+    ]
+  },
+  {
+    id:'p3', numeral:'叁', title:'6 个月前', en:'SIX MONTHS OUT',
+    note:'流程成形，菜单与请柬开始落到纸面。',
+    items:[
+      '确定伴郎伴娘人选，同步婚礼日期与流程',
+      '试纱定款：主纱、敬酒服、秀禾或旗袍',
+      '与婚庆确认仪式流程初稿与场地动线',
+      '试菜并确定婚宴菜单、酒水与儿童餐',
+      '设计请柬与电子邀请函，统计寄送数量',
+      '预约新娘试妆，确认妆面风格与饰品',
+      '安排双方父母礼服与婚礼当天造型'
+    ]
+  },
+  {
+    id:'p4', numeral:'肆', title:'3 个月前', en:'THREE MONTHS OUT',
+    note:'请柬发出，路线、婚车与红包都要确认。',
+    items:[
+      '发出请柬，逐一电话确认到场人数',
+      '敲定婚礼当天流程表与各环节时间节点',
+      '与司仪沟通誓词、互动环节与音乐清单',
+      '安排婚车车队与接亲路线，实地走一遍',
+      '预订婚房、亲友住宿与当天接送车辆',
+      '采购喜糖、伴手礼、红包封与喜字贴',
+      '开始皮肤管理与体态练习，调整作息'
+    ]
+  },
+  {
+    id:'p5', numeral:'伍', title:'1 个月前', en:'ONE MONTH OUT',
+    note:'把纸面的计划，变成每个人清楚的安排。',
+    items:[
+      '与酒店确认最终桌数、菜单与场地布置细节',
+      '组织婚礼彩排，明确伴郎伴娘与亲友分工',
+      '向摄影摄像提交必拍清单与重点镜头',
+      '准备改口红包、堵门红包与答谢红包',
+      '试妆定妆，确认婚礼当天发型与头饰',
+      '领取结婚证，核对姓名与证件信息',
+      '整理当天随身包：戒指、证件、补妆与针线'
+    ]
+  },
+  {
+    id:'p6', numeral:'陆', title:'1 周前', en:'ONE WEEK OUT',
+    note:'物件到位，电话再确认一遍。',
+    items:[
+      '电话提醒宾客，确认最终席位与特殊饮食',
+      '打印座位表、流程表与工作人员通讯录',
+      '将喜糖、伴手礼与酒水提前交接至酒店',
+      '确认婚车装饰、手捧花与胸花的送达时间',
+      '新娘完成美甲与发型护理，试穿全部礼服',
+      '给伴郎伴娘开碰头会，明确集合时间与职责',
+      '打包应急包：针线、创可贴、备用丝袜与充电宝'
+    ]
+  },
+  {
+    id:'p7', numeral:'柒', title:'婚礼当天', en:'THE WEDDING DAY',
+    note:'流程交给团队，把心思留给彼此。',
+    items:[
+      '早起化妆，按流程表推进每个时间节点',
+      '接亲、堵门与敬茶，留意红包与出门时间',
+      '签到台、席位引导与礼金登记就位',
+      '仪式：入场、誓言、交换戒指、感恩父母',
+      '换敬酒服，按桌次敬酒并控制整体节奏',
+      '安排专人保管戒指、礼金与贵重物品',
+      '送客、物资清点并结算当天尾款',
+      '收好照片与视频素材，约定成片交付时间'
+    ]
+  }
+];
+
+const STORAGE_KEY = 'wedding-checklist-v1';
+const timeline = document.getElementById('timeline');
+const ring = document.getElementById('ring');
+const ringFill = document.getElementById('ringFill');
+const ringPct = document.getElementById('ringPct');
+const ringSub = document.getElementById('ringSub');
+const stickyCount = document.getElementById('stickyCount');
+const miniFill = document.getElementById('miniFill');
+const ruleFill = document.getElementById('ruleFill');
+const CIRCUMFERENCE = 2 * Math.PI * 60;
+
+let state = {};
+try {
+  state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+} catch (e) {
+  state = {};
+}
+
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {}
+}
+
+function render() {
+  timeline.innerHTML = PHASES.map((phase, pIndex) => {
+    const tasks = phase.items.map((text, i) => `
+      <li>
+        <label class="task" style="--i:${i}">
+          <input type="checkbox" id="${phase.id}-i${i}" data-id="${phase.id}-i${i}">
+          <span class="box" aria-hidden="true"></span>
+          <span class="text">${text}</span>
+        </label>
+      </li>
+    `).join('');
+
+    return `
+      <section class="phase" id="${phase.id}">
+        <div class="node" aria-hidden="true"><i></i><span>${phase.numeral}</span></div>
+        <header class="phase-head">
+          <div class="phase-title">
+            <p class="phase-kicker">Stage 0${pIndex + 1} · ${phase.en}</p>
+            <h2>${phase.title}</h2>
+            <p class="phase-note">${phase.note}</p>
+          </div>
+          <p class="phase-count"><span class="phase-done">0</span> / ${phase.items.length}</p>
+        </header>
+        <ul class="tasks">${tasks}</ul>
+      </section>
+    `;
+  }).join('');
+
+  document.querySelectorAll('.task input').forEach(input => {
+    const checked = !!state[input.dataset.id];
+    input.checked = checked;
+    input.closest('.task').classList.toggle('done', checked);
+  });
+
+  const total = document.querySelectorAll('.task input').length;
+  document.getElementById('metaStages').textContent = `${PHASES.length} 个阶段`;
+  document.getElementById('metaTasks').textContent = `${total} 件待办`;
+  document.getElementById('ringSub').textContent = `已完成 0 / ${total}`;
+  document.getElementById('stickyCount').textContent = `0 / ${total}`;
+
+  ringFill.style.strokeDasharray = String(CIRCUMFERENCE);
+  updateProgress();
+  observePhases();
+}
+
+function updateProgress() {
+  const inputs = Array.from(document.querySelectorAll('.task input'));
+  const total = inputs.length;
+  const done = inputs.filter(input => input.checked).length;
+  const ratio = total ? done / total : 0;
+
+  ringFill.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - ratio));
+  ring.classList.toggle('all-done', done === total && total > 0);
+  ringPct.textContent = done === total && total > 0 ? '圆满' : `${Math.round(ratio * 100)}%`;
+  ringSub.textContent = `已完成 ${done} / ${total}`;
+  stickyCount.textContent = `${done} / ${total}`;
+  miniFill.style.transform = `scaleX(${ratio})`;
+  ruleFill.style.transform = `scaleX(${ratio})`;
+
+  document.querySelectorAll('.phase').forEach(section => {
+    const boxes = Array.from(section.querySelectorAll('.task input'));
+    const completed = boxes.filter(input => input.checked).length;
+    const counter = section.querySelector('.phase-done');
+    if (counter) counter.textContent = String(completed);
+    section.classList.toggle('complete', completed === boxes.length && boxes.length > 0);
+  });
+}
+
+timeline.addEventListener('change', event => {
+  const input = event.target.closest('input[type="checkbox"]');
+  if (!input) return;
+
+  state[input.dataset.id] = input.checked;
+  input.closest('.task').classList.toggle('done', input.checked);
+  persist();
+  updateProgress();
+});
+
+function observePhases() {
+  const phases = document.querySelectorAll('.phase');
+
+  if (!('IntersectionObserver' in window)) {
+    phases.forEach(phase => phase.classList.add('seen'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('seen');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  phases.forEach(phase => observer.observe(phase));
+}
+
+render();
+</script>
+
+
+</body></html>
